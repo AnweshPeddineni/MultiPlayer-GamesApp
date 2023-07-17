@@ -8,7 +8,7 @@ export default function Board() {
     const [xIsNext, setXIsNext] = useState(true);
     const [squares, setSquares] = useState(Array(n).fill("").map(() => Array(n).fill("")));
 
-    const [gameStatus, setGameStatus] = useState("Game ongoing")
+    const [gameWinner, setGameWinner] = useState("")
     
   
     function handleClick(row: number, col: number) {
@@ -29,40 +29,32 @@ export default function Board() {
       const winner = calculateWinner(squares);
       console.log(winner);
       if(winner){
-        setGameStatus("winner: " + winner);
+        setGameWinner(winner);
       }else{
-        setGameStatus("Next Player: " + (xIsNext? "X" : "O"));
+        setGameWinner("");
         //  how to fix the problem of next player shown incorrectly
       }
     }
-  
-    const renderedSquares = [];
-    for (let i = 0; i < n; i++) {
-      const row = [];
-      for (let j = 0; j < n; j++) {
-        row.push(
-          <Square
-            key={`${i}-${j}`}
-            value={squares[i][j]}
-            onSquareClick={() => handleClick(i, j)}
-          />
-        );
-      }
-      renderedSquares.push(<div key={i}>{row}</div>);
-      // check the proper way ofrendering a list in react, the above is not the best way
-    }
-  
+
     return(
         <>
-        <div>{gameStatus}</div>
-        {renderedSquares}
+        {gameWinner ? <p>Winner is {gameWinner} </p> : <p> {xIsNext ? "X turn" : "O turn" } </p>}
+        {squares.map((row, rowIndex) => (
+        <div key={rowIndex}>
+        {row.map((element, colIndex) => (
+          <Square
+            key={`${rowIndex}-${colIndex}`}
+            value={element}
+            onSquareClick={() => handleClick(rowIndex, colIndex)}
+          />
+        ))}
+      </div>
+    ))}
         </>
     )
 }
 
-interface Square {
-    value: string;
-}
+
 
 // TODO: Explain the better way to do this type magic?
 function calculateWinner(squares: string[][]): string | null{

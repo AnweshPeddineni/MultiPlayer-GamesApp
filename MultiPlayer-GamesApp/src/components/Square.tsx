@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.css";
 
 interface SquareProps {
     value: any;
@@ -6,5 +7,5 @@ interface SquareProps {
 
 export default function Square(props: SquareProps) {
    
-    return <button className="square" onClick={props.onSquareClick}>{props.value}</button>;
+    return <button className="btn btn-outline-primary square" onClick={props.onSquareClick}>{props.value}</button>;
 }
