@@ -22,3 +22,4 @@ return (
 }
 
 
+// Current user is the user of a App instance!
